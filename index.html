@@ -589,6 +589,18 @@ function renderTimeline() {
               <div class="edit-label">Meta de caixa</div>
               <input class="edit-input" id="ef-meta-${y.ano}" value="${y.stats.meta||''}">
             </div>
+            <div>
+              <div class="edit-label">Renda mensal</div>
+              <input class="edit-input" id="ef-renda-${y.ano}" value="${y.stats.renda||''}">
+            </div>
+            <div>
+              <div class="edit-label">Poupança mensal</div>
+              <input class="edit-input" id="ef-poupanca-${y.ano}" value="${y.stats['poupança']||y.stats.poupanca||''}">
+            </div>
+            <div>
+              <div class="edit-label">Campo extra (ex: rolos)</div>
+              <input class="edit-input" id="ef-extra-val-${y.ano}" value="${Object.entries(y.stats).filter(([k])=>k!=='meta'&&k!=='renda'&&k!=='poupança'&&k!=='poupanca').map(([k,v])=>v).join('')||''}">
+            </div>
           </div>
           <div style="margin-bottom:8px">
             <div class="edit-label">Tags (separadas por vírgula)</div>
@@ -628,6 +640,12 @@ function salvarAno(ano) {
   timelineData[idx].label = document.getElementById('ef-label-'+ano).value.trim();
   timelineData[idx].desc  = document.getElementById('ef-desc-'+ano).value.trim();
   timelineData[idx].stats.meta = document.getElementById('ef-meta-'+ano).value.trim();
+  timelineData[idx].stats.renda = document.getElementById('ef-renda-'+ano).value.trim();
+  timelineData[idx].stats['poupança'] = document.getElementById('ef-poupanca-'+ano).value.trim();
+  // campo extra — encontra a chave que não é meta/renda/poupança e atualiza
+  const extraVal = document.getElementById('ef-extra-val-'+ano).value.trim();
+  const extraKey = Object.keys(timelineData[idx].stats).find(k=>k!=='meta'&&k!=='renda'&&k!=='poupança'&&k!=='poupanca');
+  if (extraKey && extraVal) timelineData[idx].stats[extraKey] = extraVal;
   timelineData[idx].tags  = document.getElementById('ef-tags-'+ano).value.trim();
   timelineData[idx].nota  = document.getElementById('ef-nota-'+ano).value.trim();
   salvarTimeline();
