@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>O Plano Mais Seguro</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg2: #f7f7f5;
+    --bg3: #f0efeb;
+    --bg4: #e8e7e2;
+    --border: rgba(0,0,0,0.08);
+    --border2: rgba(0,0,0,0.14);
+    --text: #000000;
+    --text2: #333333;
+    --text3: #555555;
+    --accent: #1a6b3a;
+    --accent-light: #e8f5ee;
+    --accent-mid: #2d9e58;
+    --blue: #1a4a8a;
+    --blue-light: #e8f0fb;
+    --amber: #8a5a1a;
+    --amber-light: #fdf3e3;
+    --coral: #8a2a1a;
+    --coral-light: #fdeae8;
+    --purple: #4a1a8a;
+    --purple-light: #f0e8fb;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+    --radius: 10px;
+    --radius-sm: 7px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 14px; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; line-height: 1.6; }
+  .header { border-bottom: 1px solid var(--border); padding: 20px 32px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: rgba(255,255,255,0.96); backdrop-filter: blur(12px); z-index: 100; }
+  .header-left { display: flex; align-items: baseline; gap: 14px; }
+  .logo { font-family: var(--mono); font-size: 13px; color: var(--accent); font-weight: 500; letter-spacing: 0.02em; }
+  .header-sub { font-size: 12px; color: var(--text3); }
+  .patrimonio-header { font-size: 13px; color: var(--text2); }
+  .patrimonio-header span { color: var(--accent); font-weight: 600; font-size: 16px; margin-left: 6px; font-family: var(--mono); }
+  .container { max-width: 1100px; margin: 0 auto; padding: 28px 32px; }
+  .grid-main { display: grid; grid-template-columns: 1fr 320px; gap: 20px; align-items: start; }
+  .card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 22px; }
+  .card-title { font-size: 11px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px; }
+  .metrics-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 20px; }
+  .metric { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; }
+  .metric-label { font-size: 11px; color: var(--text3); font-weight: 500; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .metric-value { font-size: 20px; font-weight: 600; color: var(--text); font-family: var(--mono); }
+  .metric-value.green { color: var(--accent); }
+  .metric-value.blue  { color: var(--blue); }
+  .metric-value.amber { color: var(--amber); }
+  .metric-sub { font-size: 11px; color: var(--text3); margin-top: 3px; }
+  .progress-section { margin-bottom: 20px; }
+  .progress-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+  .progress-title { font-size: 12px; font-weight: 500; color: var(--text2); }
+  .progress-pct { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--accent); }
+  .progress-track { height: 7px; background: var(--bg3); border-radius: 4px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-mid)); border-radius: 4px; transition: width 0.8s cubic-bezier(0.4,0,0.2,1); }
+  .progress-markers { display: flex; justify-content: space-between; margin-top: 6px; }
+  .progress-marker { font-size: 10px; color: var(--text3); font-family: var(--mono); }
+  .chart-section { margin-bottom: 20px; }
+  .chart-wrap { position: relative; height: 190px; }
+  .registro-section { margin-bottom: 20px; }
+  .registro-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .mes-nav { display: flex; align-items: center; gap: 8px; }
+  .mes-nav button { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; color: var(--text2); width: 28px; height: 28px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+  .mes-nav button:hover { border-color: var(--border2); color: var(--text); background: var(--bg3); }
+  .mes-atual { font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--text); min-width: 110px; text-align: center; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .form-group { display: flex; flex-direction: column; gap: 5px; }
+  .form-full { grid-column: 1/-1; }
+  .form-label { font-size: 11px; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: 0.06em; }
+  .form-input { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-family: var(--sans); font-size: 14px; padding: 9px 12px; outline: none; transition: border-color 0.15s; width: 100%; }
+  .form-input:focus { border-color: var(--accent-mid); background: var(--bg); }
+  .form-input::placeholder { color: var(--text3); }
+  .form-hint { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .ops-section { margin-top: 12px; }
+  .ops-title { font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .op-item { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 8px; }
+  .op-item-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .op-badge { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 20px; }
+  .op-badge.carro { background: var(--blue-light); color: var(--blue); }
+  .op-badge.imovel { background: var(--amber-light); color: var(--amber); }
+  .op-add { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+  .btn-add-op { background: var(--bg2); border: 1px dashed var(--border2); border-radius: var(--radius-sm); color: var(--text2); font-size: 12px; font-weight: 500; padding: 8px 14px; cursor: pointer; transition: all 0.15s; width: 100%; text-align: center; }
+  .btn-add-op:hover { background: var(--bg3); color: var(--text); }
+  .btn-rm { background: none; border: none; color: var(--text3); cursor: pointer; font-size: 14px; padding: 2px 6px; border-radius: 4px; transition: color 0.15s; }
+  .btn-rm:hover { color: var(--coral); }
+  .btn-salvar { background: var(--accent); color: #fff; border: none; border-radius: var(--radius-sm); font-family: var(--sans); font-size: 13px; font-weight: 600; padding: 11px 24px; cursor: pointer; width: 100%; margin-top: 12px; letter-spacing: 0.02em; transition: all 0.15s; }
+  .btn-salvar:hover { background: var(--accent-mid); }
+  .toast { position: fixed; bottom: 24px; right: 24px; background: var(--accent); color: #fff; font-size: 12px; font-weight: 600; padding: 10px 18px; border-radius: var(--radius-sm); opacity: 0; transform: translateY(8px); transition: all 0.25s; pointer-events: none; z-index: 999; }
+  .toast.show { opacity: 1; transform: translateY(0); }
+  .year-block { margin-bottom: 10px; }
+  .year-header { display: flex; align-items: center; gap: 10px; padding: 11px 14px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer; user-select: none; transition: border-color 0.15s; }
+  .year-header:hover { border-color: var(--border2); }
+  .year-header.open { border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-bottom: none; }
+  .year-dot-tl { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .year-info { flex: 1; }
+  .year-title { font-size: 13px; font-weight: 600; color: var(--text); }
+  .year-desc { font-size: 11px; color: var(--text3); margin-top: 1px; }
+  .year-caixa { font-family: var(--mono); font-size: 13px; font-weight: 600; }
+  .year-chevron { font-size: 10px; color: var(--text3); transition: transform 0.2s; }
+  .year-chevron.open { transform: rotate(180deg); }
+  .year-body { background: var(--bg); border: 1px solid var(--border); border-top: none; border-bottom-left-radius: var(--radius); border-bottom-right-radius: var(--radius); padding: 14px; display: none; }
+  .year-body.open { display: block; }
+  .year-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; margin-bottom: 10px; }
+  .ys { background: var(--bg2); border-radius: var(--radius-sm); padding: 8px 10px; }
+  .ys-label { font-size: 10px; color: var(--text3); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px; }
+  .ys-value { font-size: 12px; font-weight: 600; font-family: var(--mono); }
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .tag { font-size: 11px; padding: 3px 9px; border-radius: 20px; border: 1px solid var(--border); color: var(--text2); }
+  .year-note { font-size: 11px; color: var(--text2); margin-top: 10px; padding: 8px 10px; border-left: 2px solid var(--border2); background: var(--bg2); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+  .sim-result { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; margin-top: 10px; }
+  .sim-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid var(--border); }
+  .sim-row:last-child { border-bottom: none; }
+  .sim-key { font-size: 12px; color: var(--text2); }
+  .sim-val { font-size: 12px; font-family: var(--mono); font-weight: 600; }
+  .sim-val.green { color: var(--accent); }
+  .sim-val.amber { color: var(--amber); }
+  .sim-val.blue  { color: var(--blue); }
+  .hist-list { max-height: 260px; overflow-y: auto; }
+  .hist-list::-webkit-scrollbar { width: 4px; }
+  .hist-list::-webkit-scrollbar-track { background: var(--bg2); }
+  .hist-list::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+  .hist-item { padding: 9px 0; border-bottom: 1px solid var(--border); }
+  .hist-item:last-child { border-bottom: none; }
+  .hist-row { display: flex; align-items: center; justify-content: space-between; }
+  .hist-mes { font-size: 12px; font-weight: 500; color: var(--text); font-family: var(--mono); }
+  .hist-val { font-size: 13px; font-weight: 600; color: var(--accent); font-family: var(--mono); }
+  .hist-ops { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .hist-del { color: var(--text3); cursor: pointer; font-size: 12px; padding: 2px 6px; border-radius: 4px; transition: color 0.15s; background: none; border: none; }
+  .hist-del:hover { color: var(--coral); }
+  .empty-hist { font-size: 12px; color: var(--text3); text-align: center; padding: 24px 0; }
+  .sidebar { position: sticky; top: 76px; display: flex; flex-direction: column; gap: 16px; }
+  .nota { font-size: 11px; color: var(--text2); padding: 8px 10px; background: var(--bg2); border-left: 2px solid var(--border2); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin-top: 8px; }
+  @media (max-width: 900px) {
+    .grid-main { grid-template-columns: 1fr; }
+    .metrics-row { grid-template-columns: repeat(2,1fr); }
+    .sidebar { position: static; }
+    .container { padding: 16px; }
+    .header { padding: 14px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="logo">O PLANO MAIS SEGURO</div>
+    <div class="header-sub">22 → 31 anos · R$1.000.000 · vida nômade</div>
+  </div>
+  <div class="patrimonio-header">patrimônio atual<span id="hdr-patrimonio">R$0,00</span></div>
+</div>
+
+<div class="container">
+  <div class="metrics-row">
+    <div class="metric">
+      <div class="metric-label">Patrimônio atual</div>
+      <div class="metric-value green" id="met-patrimonio">R$0,00</div>
+      <div class="metric-sub" id="met-pct">0% do objetivo</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Falta para R$1M</div>
+      <div class="metric-value blue" id="met-falta">R$1.000.000,00</div>
+      <div class="metric-sub" id="met-ritmo">—</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Lucro real em operações</div>
+      <div class="metric-value amber" id="met-lucro">R$0,00</div>
+      <div class="metric-sub" id="met-ops">0 carros · 0 imóveis</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Meses registrados</div>
+      <div class="metric-value" id="met-meses">0</div>
+      <div class="metric-sub" id="met-media">média R$0,00/mês</div>
+    </div>
+  </div>
+
+  <div class="progress-section card">
+    <div class="progress-header">
+      <div class="progress-title">Progresso até R$1.000.000</div>
+      <div class="progress-pct" id="prog-pct">0%</div>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="prog-bar" style="width:0%"></div>
+    </div>
+    <div class="progress-markers">
+      <span class="progress-marker">R$0 · 2026</span>
+      <span class="progress-marker">R$150k · 2031</span>
+      <span class="progress-marker">R$500k · 2033</span>
+      <span class="progress-marker">R$1M · 2034+</span>
+    </div>
+  </div>
+
+  <div class="grid-main">
+    <div>
+      <div class="chart-section card">
+        <div class="card-title">Evolução do patrimônio</div>
+        <div class="chart-wrap"><canvas id="chart"></canvas></div>
+      </div>
+
+      <div class="registro-section card" style="margin-top:16px">
+        <div class="registro-header">
+          <div class="card-title" style="margin:0">Registro mensal</div>
+          <div class="mes-nav">
+            <button onclick="navMes(-1)">‹</button>
+            <div class="mes-atual" id="mes-display"></div>
+            <button onclick="navMes(1)">›</button>
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group form-full">
+            <div class="form-label">Patrimônio total no fim do mês (R$)</div>
+            <input class="form-input" id="inp-patrimonio" type="number" placeholder="Ex: 4900" min="0">
+            <div class="form-hint">Informe o total acumulado — de onde veio não importa.</div>
+          </div>
+        </div>
+        <div class="ops-section">
+          <div class="ops-title">Operações realizadas no mês <span style="color:var(--text3);font-weight:400">(opcional)</span></div>
+          <div id="ops-list"></div>
+          <div class="op-add">
+            <button class="btn-add-op" onclick="addOp('carro')">+ Rolo de carro</button>
+            <button class="btn-add-op" onclick="addOp('imovel')">+ Operação de imóvel</button>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:12px">
+          <div class="form-label">Observação (opcional)</div>
+          <input class="form-input" id="inp-obs" type="text" placeholder="Ex: entrei no Sicredi, primeiro rolo feito...">
+        </div>
+        <button class="btn-salvar" onclick="salvarMes()">→ salvar mês</button>
+      </div>
+
+      <div style="margin-top:16px" id="timeline-container"></div>
+    </div>
+
+    <div class="sidebar">
+      <div class="card">
+        <div class="card-title">Simulador — caminho mais rápido</div>
+        <div class="form-group" style="margin-bottom:10px">
+          <div class="form-label">Patrimônio atual (R$)</div>
+          <input class="form-input" id="sim-patrimonio" type="number" placeholder="0" oninput="simular()">
+        </div>
+        <div class="form-group" style="margin-bottom:10px">
+          <div class="form-label">Poupança mensal (R$)</div>
+          <input class="form-input" id="sim-poupanca" type="number" placeholder="700" oninput="simular()">
+        </div>
+        <div class="form-group" style="margin-bottom:10px">
+          <div class="form-label">Rolos de carro / ano</div>
+          <input class="form-input" id="sim-carros" type="number" placeholder="0" min="0" oninput="simular()">
+        </div>
+        <div class="form-group" style="margin-bottom:10px">
+          <div class="form-label">Operações de imóvel / ano</div>
+          <input class="form-input" id="sim-imoveis" type="number" placeholder="0" min="0" oninput="simular()">
+        </div>
+        <div class="nota" style="margin-bottom:10px">
+          Médias: carro R$2.500/rolo · imóvel R$30.000/op.<br>
+          Lucro real registrado prevalece sobre a média.
+        </div>
+        <div class="sim-result">
+          <div class="sim-row"><span class="sim-key">Lucro carros/ano</span><span class="sim-val green" id="sim-lucro-carros">—</span></div>
+          <div class="sim-row"><span class="sim-key">Lucro imóveis/ano</span><span class="sim-val green" id="sim-lucro-imoveis">—</span></div>
+          <div class="sim-row"><span class="sim-key">Entrada total/ano</span><span class="sim-val amber" id="sim-total-ano">—</span></div>
+          <div class="sim-row"><span class="sim-key">Anos até R$1M</span><span class="sim-val blue" id="sim-anos">—</span></div>
+          <div class="sim-row"><span class="sim-key">Ano estimado</span><span class="sim-val blue" id="sim-ano-est">—</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Histórico de registros</div>
+        <div class="hist-list" id="hist-list">
+          <div class="empty-hist">nenhum registro ainda</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+const META = 1000000;
+const CARRO_LUCRO_MEDIO = 2500;
+const IMOVEL_LUCRO_MEDIO = 30000;
+
+let dados = JSON.parse(localStorage.getItem('rotaM2') || '{}');
+let mesSel = new Date(); mesSel.setDate(1);
+let opsTemp = [];
+
+function fmt(v) {
+  if (v >= 1000000) return 'R$' + (v/1000000).toFixed(2).replace('.',',') + 'M';
+  if (v >= 1000) return 'R$' + Math.round(v/1000) + 'k';
+  return 'R$' + Math.round(v).toLocaleString('pt-BR');
+}
+function fmtFull(v) {
+  return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+function mesKey(d) { return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0'); }
+function mesLabel(d) {
+  const m = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  return m[d.getMonth()] + '/' + d.getFullYear();
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+function addOp(tipo) {
+  opsTemp.push({ tipo, lucro: tipo === 'carro' ? CARRO_LUCRO_MEDIO : IMOVEL_LUCRO_MEDIO });
+  renderOpsForm();
+}
+function removeOp(i) { opsTemp.splice(i,1); renderOpsForm(); }
+function renderOpsForm() {
+  const el = document.getElementById('ops-list');
+  if (opsTemp.length === 0) { el.innerHTML = ''; return; }
+  el.innerHTML = opsTemp.map((op, i) => `
+    <div class="op-item">
+      <div class="op-item-header">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="op-badge ${op.tipo}">${op.tipo === 'carro' ? 'Rolo de carro' : 'Imóvel'}</span>
+          <span style="font-size:11px;color:var(--text3)">média: ${fmtFull(op.tipo==='carro'?CARRO_LUCRO_MEDIO:IMOVEL_LUCRO_MEDIO)}</span>
+        </div>
+        <button class="btn-rm" onclick="removeOp(${i})">✕</button>
+      </div>
+      <div class="form-group">
+        <div class="form-label">Lucro real desta operação (R$)</div>
+        <input class="form-input" type="number" value="${op.lucro}"
+          onchange="opsTemp[${i}].lucro = parseFloat(this.value)||0"
+          placeholder="${op.tipo==='carro'?'2500':'30000'}">
+        <div class="form-hint">Altere se o lucro real foi diferente da média.</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function salvarMes() {
+  const pat = parseFloat(document.getElementById('inp-patrimonio').value);
+  if (isNaN(pat) || pat < 0) { showToast('informe o patrimônio do mês'); return; }
+  const obs = document.getElementById('inp-obs').value.trim();
+  const key = mesKey(mesSel);
+  dados[key] = { patrimonio: pat, ops: JSON.parse(JSON.stringify(opsTemp)), obs };
+  localStorage.setItem('rotaM2', JSON.stringify(dados));
+  document.getElementById('inp-patrimonio').value = '';
+  document.getElementById('inp-obs').value = '';
+  opsTemp = []; renderOpsForm();
+  showToast('✓ ' + mesLabel(mesSel) + ' salvo');
+  render();
+}
+
+function navMes(d) {
+  mesSel.setMonth(mesSel.getMonth()+d);
+  const key = mesKey(mesSel);
+  const reg = dados[key];
+  opsTemp = reg ? JSON.parse(JSON.stringify(reg.ops||[])) : [];
+  document.getElementById('inp-patrimonio').value = reg ? reg.patrimonio : '';
+  document.getElementById('inp-obs').value = reg ? (reg.obs||'') : '';
+  document.getElementById('mes-display').textContent = mesLabel(mesSel);
+  renderOpsForm();
+}
+
+function calcMetricas() {
+  const keys = Object.keys(dados).sort();
+  if (!keys.length) return { patrimonio:0, lucroReal:0, totalCarros:0, totalImoveis:0, meses:0, media:0 };
+  const ultimo = dados[keys[keys.length-1]];
+  let lucroReal=0, totalCarros=0, totalImoveis=0;
+  keys.forEach(k => {
+    (dados[k].ops||[]).forEach(op => {
+      lucroReal += op.lucro||0;
+      if (op.tipo==='carro') totalCarros++;
+      else totalImoveis++;
+    });
+  });
+  const patrimonio = ultimo.patrimonio;
+  const primeiro = dados[keys[0]].patrimonio;
+  const media = keys.length > 1 ? (patrimonio-primeiro)/(keys.length-1) : patrimonio;
+  return { patrimonio, lucroReal, totalCarros, totalImoveis, meses: keys.length, media };
+}
+
+let chartInst = null;
+function renderChart() {
+  const keys = Object.keys(dados).sort();
+  const labels = keys.map(k => { const d=new Date(k+'-01'); return mesLabel(d); });
+  const vals = keys.map(k => dados[k].patrimonio);
+  const projecaoLabels=[], projecaoVals=[];
+  if (vals.length >= 2) {
+    const avg = (vals[vals.length-1]-vals[0])/(vals.length-1);
+    let last = vals[vals.length-1];
+    const lastDate = new Date(keys[keys.length-1]+'-01');
+    for (let i=1; i<=36 && last<META; i++) {
+      lastDate.setMonth(lastDate.getMonth()+1);
+      last = Math.min(last+avg, META);
+      projecaoLabels.push(mesLabel(new Date(lastDate)));
+      projecaoVals.push(last);
+    }
+  }
+  const allLabels = [...labels, ...projecaoLabels];
+  const realData  = [...vals, ...projecaoLabels.map(()=>null)];
+  const projData  = [...vals.map(()=>null), ...(vals.length?[vals[vals.length-1]]:[]), ...projecaoVals];
+  const ctx = document.getElementById('chart').getContext('2d');
+  if (chartInst) chartInst.destroy();
+  chartInst = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: allLabels,
+      datasets: [
+        { label:'real', data:realData, borderColor:'#1a6b3a', backgroundColor:'rgba(26,107,58,0.06)', borderWidth:2, pointRadius:4, pointBackgroundColor:'#1a6b3a', fill:true, tension:0.3, spanGaps:false },
+        { label:'projeção', data:projData, borderColor:'rgba(26,107,58,0.3)', borderWidth:1.5, borderDash:[4,4], pointRadius:0, fill:false, tension:0.3, spanGaps:true }
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins: {
+        legend: { display:false },
+        tooltip: {
+          backgroundColor:'#fff', borderColor:'rgba(0,0,0,0.1)', borderWidth:1,
+          titleColor:'#555555', bodyColor:'#1a6b3a',
+          titleFont:{family:'Inter',size:11}, bodyFont:{family:'JetBrains Mono',size:13},
+          callbacks:{ label: ctx => fmtFull(ctx.raw) }
+        }
+      },
+      scales: {
+        x: { grid:{color:'rgba(0,0,0,0.04)'}, ticks:{color:'#a0a09a',font:{family:'Inter',size:10},maxTicksLimit:8} },
+        y: { grid:{color:'rgba(0,0,0,0.04)'}, ticks:{color:'#a0a09a',font:{family:'JetBrains Mono',size:10},callback:v=>fmt(v)} }
+      }
+    }
+  });
+}
+
+function renderHist() {
+  const el = document.getElementById('hist-list');
+  const keys = Object.keys(dados).sort().reverse();
+  if (!keys.length) { el.innerHTML='<div class="empty-hist">nenhum registro ainda</div>'; return; }
+  el.innerHTML = keys.map(k => {
+    const r = dados[k];
+    const d = new Date(k+'-01');
+    const ops = r.ops||[];
+    const carros = ops.filter(o=>o.tipo==='carro');
+    const imoveis = ops.filter(o=>o.tipo==='imovel');
+    let opsStr = [];
+    if (carros.length) opsStr.push(carros.length + ' carro(s): ' + fmtFull(carros.reduce((a,o)=>a+(o.lucro||0),0)));
+    if (imoveis.length) opsStr.push(imoveis.length + ' imóvel(eis): ' + fmtFull(imoveis.reduce((a,o)=>a+(o.lucro||0),0)));
+    return `<div class="hist-item">
+      <div class="hist-row">
+        <span class="hist-mes">${mesLabel(d)}</span>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span class="hist-val">${fmtFull(r.patrimonio)}</span>
+          <button class="hist-del" onclick="deletarMes('${k}')">✕</button>
+        </div>
+      </div>
+      ${opsStr.length ? '<div class="hist-ops">'+opsStr.join(' · ')+'</div>' : ''}
+      ${r.obs ? '<div class="hist-ops" style="color:#333333;font-style:italic">"'+r.obs+'"</div>' : ''}
+    </div>`;
+  }).join('');
+}
+function deletarMes(key) {
+  if (!confirm('Remover registro de ' + mesLabel(new Date(key+'-01')) + '?')) return;
+  delete dados[key]; localStorage.setItem('rotaM2', JSON.stringify(dados)); render();
+}
+
+const timeline = [
+  { ano:2026, cor:'#1a6b3a', label:'22 anos · base', desc:'Iniciar graduação, inscrição Sicredi, guardar R$700/mês',
+    stats:{renda:'R$2.000/mês','poupança':'R$700/mês',meta:'~R$4.900'},
+    tags:['Guardar R$700/mês','Iniciar graduação','Inscrição Sicredi'],
+    nota:'Foco em disciplina e base. Nenhum rolo ainda — caixa pequeno demais.' },
+  { ano:2027, cor:'#1a6b3a', label:'23 anos · acumulação', desc:'Meta: entrar no Sicredi e chegar a R$15k',
+    stats:{renda:'R$2.500/mês','poupança':'~R$700/mês',meta:'~R$13.300'},
+    tags:['Entrar no Sicredi','2º ano da graduação','Estudar mercado de carros'],
+    nota:'R$15k chegam em fev/2028 mesmo sem mudança de renda. Não force o primeiro rolo antes disso.' },
+  { ano:2028, cor:'#185fa5', label:'24 anos · primeiro rolo', desc:'Renda sobe para R$5k · 1ª operação de carro · formatura',
+    stats:{renda:'R$5.000/mês',rolos:'2–3 carros',meta:'~R$35.000'},
+    tags:['1ª operação de carro','Reinvestir 100% do lucro','Formatura gestão financeira'],
+    nota:'Poupança sobe para R$1.500–2.000/mês. O ritmo muda aqui.' },
+  { ano:2029, cor:'#185fa5', label:'25 anos · rolos em série', desc:'Carros recorrentes, acumulando para imóvel',
+    stats:{renda:'R$5.500–6.000',rolos:'4–6 carros',meta:'~R$65.000'},
+    tags:['4–6 rolos de carro','Lucro ~R$10–15k/ano','Crescer no Sicredi'],
+    nota:'Ainda longe dos R$150k para imóvel. Foco total em carros e poupança.' },
+  { ano:2030, cor:'#8a5a1a', label:'26 anos · aceleração', desc:'Máximo de rolos de carro, chegando nos R$150k',
+    stats:{renda:'R$6.000–6.500',rolos:'6–8 carros',meta:'~R$106.000'},
+    tags:['6–8 rolos de carro','Lucro ~R$15–20k/ano','Poupança ~R$24k/ano'],
+    nota:'Faltam ~R$44k para os R$150k do imóvel. Sprint final antes de migrar.' },
+  { ano:2031, cor:'#8a5a1a', label:'27 anos · entrada no imóvel', desc:'1º sem: R$150k · 2º sem: 1ª operação de imóvel',
+    stats:{renda:'R$6.500/mês','1ª op. imóvel':'jul/2031',meta:'~R$170.000'},
+    tags:['Atingir R$150k no 1º sem.','1ª operação de imóvel','Rolos de carro paralelos'],
+    nota:'⚠ Ao alocar R$150k no imóvel, mantenha reserva de emergência. Nunca zere o caixa.' },
+  { ano:2032, cor:'#8a2a1a', label:'28 anos · 1º lucro imóvel', desc:'Recebe R$30k do 1º imóvel · reinveste · carros continuam',
+    stats:{lucro:'R$30.000','2ª op.':'em curso',meta:'~R$280.000'},
+    tags:['Lucro 1º imóvel','2ª operação de imóvel','6–8 rolos de carro'],
+    nota:'Patrimônio começa a crescer diferente. Cada imóvel liquidado acelera o próximo.' },
+  { ano:2033, cor:'#8a2a1a', label:'29 anos · sprint final', desc:'2ª venda de imóvel · 3ª operação · carros no máximo',
+    stats:{lucro:'+R$30.000',rolos:'8–10 carros',meta:'~R$500.000'},
+    tags:['2ª venda de imóvel','3ª operação de imóvel','8–10 rolos de carro'],
+    nota:'⚠ Com R$500k aos 29 anos, os R$1M dependem das operações de imóvel em 2034.' },
+  { ano:2034, cor:'#4a1a8a', label:'30–31 anos · objetivo', desc:'3ª e 4ª vendas · patrimônio cruza R$1M · vida nômade',
+    stats:{meta:'R$1.000.000',passiva:'sustentável',vida:'nômade'},
+    tags:['Patrimônio R$1M','Renda passiva estruturada','Modo nômade'],
+    nota:'✓ Prazo realista: 30–31 anos. Um ano a mais com segurança vale mais do que forçar.' },
+];
+
+function renderTimeline() {
+  const container = document.getElementById('timeline-container');
+  container.innerHTML = timeline.map((y,i) => {
+    const isOpen = i===0;
+    const statsHtml = Object.entries(y.stats).map(([k,v]) =>
+      `<div class="ys"><div class="ys-label">${k}</div><div class="ys-value" style="color:${y.cor}">${v}</div></div>`
+    ).join('');
+    return `<div class="year-block">
+      <div class="year-header ${isOpen?'open':''}" onclick="toggleYear(this)">
+        <div class="year-dot-tl" style="background:${y.cor}"></div>
+        <div class="year-info">
+          <div class="year-title">${y.ano} — ${y.label}</div>
+          <div class="year-desc">${y.desc}</div>
+        </div>
+        <div class="year-caixa" style="color:${y.cor}">${y.stats.meta||'—'}</div>
+        <div class="year-chevron ${isOpen?'open':''}">▼</div>
+      </div>
+      <div class="year-body ${isOpen?'open':''}">
+        <div class="year-stats">${statsHtml}</div>
+        <div class="tags">${y.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+        <div class="year-note">${y.nota}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function toggleYear(el) {
+  const body = el.nextElementSibling;
+  const ch = el.querySelector('.year-chevron');
+  const open = body.classList.contains('open');
+  body.classList.toggle('open',!open); ch.classList.toggle('open',!open); el.classList.toggle('open',!open);
+}
+
+function simular() {
+  const pat    = parseFloat(document.getElementById('sim-patrimonio').value)||0;
+  const poup   = parseFloat(document.getElementById('sim-poupanca').value)||0;
+  const carros = parseFloat(document.getElementById('sim-carros').value)||0;
+  const imoveis= parseFloat(document.getElementById('sim-imoveis').value)||0;
+  const lucroCarros   = carros * CARRO_LUCRO_MEDIO;
+  const lucroImoveis  = imoveis * IMOVEL_LUCRO_MEDIO;
+  const totalAno = (poup*12) + lucroCarros + lucroImoveis;
+  document.getElementById('sim-lucro-carros').textContent  = fmtFull(lucroCarros)+'/ano';
+  document.getElementById('sim-lucro-imoveis').textContent = fmtFull(lucroImoveis)+'/ano';
+  document.getElementById('sim-total-ano').textContent     = fmtFull(totalAno)+'/ano';
+  if (totalAno<=0) { document.getElementById('sim-anos').textContent='∞'; document.getElementById('sim-ano-est').textContent='—'; return; }
+  const falta = Math.max(0,META-pat);
+  const anos  = falta/totalAno;
+  document.getElementById('sim-anos').textContent    = anos.toFixed(1)+' anos';
+  document.getElementById('sim-ano-est').textContent = (new Date().getFullYear()+Math.ceil(anos)).toString();
+}
+
+function render() {
+  const met = calcMetricas();
+  const pct = Math.min(100,(met.patrimonio/META)*100);
+  const falta = META - met.patrimonio;
+  document.getElementById('met-patrimonio').textContent = fmtFull(met.patrimonio);
+  document.getElementById('met-pct').textContent        = pct.toFixed(2)+'% do objetivo';
+  document.getElementById('met-falta').textContent      = fmtFull(falta);
+  document.getElementById('met-lucro').textContent      = fmtFull(met.lucroReal);
+  document.getElementById('met-ops').textContent        = met.totalCarros+' carros · '+met.totalImoveis+' imóveis';
+  document.getElementById('met-meses').textContent      = met.meses;
+  document.getElementById('met-media').textContent      = 'média '+fmtFull(met.media)+'/mês';
+  document.getElementById('prog-pct').textContent       = pct.toFixed(1)+'%';
+  document.getElementById('prog-bar').style.width       = pct+'%';
+  document.getElementById('hdr-patrimonio').textContent = fmtFull(met.patrimonio);
+  if (met.meses>0 && met.media>0) {
+    const mesesR = falta/met.media;
+    document.getElementById('met-ritmo').textContent = 'nesse ritmo: '+(mesesR/12).toFixed(1)+' anos';
+  }
+  if (!document.getElementById('sim-patrimonio').value) {
+    document.getElementById('sim-patrimonio').value = met.patrimonio||'';
+    simular();
+  }
+  renderChart(); renderHist(); renderTimeline();
+}
+
+document.getElementById('mes-display').textContent = mesLabel(mesSel);
+render(); simular();
+</script>
+</body>
+</html>
