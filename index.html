@@ -331,45 +331,50 @@ let opsTemp = [];
 
 // Timeline padrão — salva no localStorage para edição
 const TIMELINE_DEFAULT = [
-  { ano:2026, cor:'#1a6b3a', label:'22 anos · base', desc:'Iniciar graduação, inscrição Sicredi, guardar R$700/mês',
+  { ano:2026, cor:'#1a6b3a', label:'22 anos · base', desc:'Início da graduação (jun/26) · inscrição Sicredi · guardar R$700/mês',
     stats:{renda:'R$2.000/mês','poupança':'R$700/mês',meta:'~R$4.900'},
-    tags:'Guardar R$700/mês, Iniciar graduação, Inscrição Sicredi',
-    nota:'Foco em disciplina e base. Nenhum rolo ainda — caixa pequeno demais.' },
-  { ano:2027, cor:'#1a6b3a', label:'23 anos · acumulação', desc:'Meta: entrar no Sicredi e chegar a R$15k',
-    stats:{renda:'R$2.500/mês','poupança':'~R$700/mês',meta:'~R$13.300'},
-    tags:'Entrar no Sicredi, 2º ano da graduação, Estudar mercado de carros',
-    nota:'R$15k chegam em fev/2028 mesmo sem mudança de renda. Não force o primeiro rolo antes disso.' },
-  { ano:2028, cor:'#185fa5', label:'24 anos · primeiro rolo', desc:'Renda sobe para R$5k · 1ª operação de carro · formatura',
-    stats:{renda:'R$5.000/mês',rolos:'2–3 carros',meta:'~R$35.000'},
-    tags:'1ª operação de carro, Reinvestir 100% do lucro, Formatura gestão financeira',
-    nota:'Poupança sobe para R$1.500–2.000/mês. O ritmo muda aqui.' },
-  { ano:2029, cor:'#185fa5', label:'25 anos · rolos em série', desc:'Carros recorrentes, acumulando para imóvel',
-    stats:{renda:'R$5.500–6.000',rolos:'4–6 carros',meta:'~R$65.000'},
-    tags:'4–6 rolos de carro, Lucro ~R$10–15k/ano, Crescer no Sicredi',
-    nota:'Ainda longe dos R$150k para imóvel. Foco total em carros e poupança.' },
-  { ano:2030, cor:'#8a5a1a', label:'26 anos · aceleração', desc:'Máximo de rolos de carro, chegando nos R$150k',
-    stats:{renda:'R$6.000–6.500',rolos:'6–8 carros',meta:'~R$106.000'},
-    tags:'6–8 rolos de carro, Lucro ~R$15–20k/ano, Poupança ~R$24k/ano',
-    nota:'Faltam ~R$44k para os R$150k do imóvel. Sprint final antes de migrar.' },
+    tags:'Guardar R$700/mês, Iniciar graduação gestão financeira (jun/26), Inscrição Sicredi, 1º semestre da graduação',
+    nota:'Foco em disciplina e base. Nenhum rolo ainda — caixa pequeno demais. Graduação termina em jun/2028.' },
+  { ano:2027, cor:'#1a6b3a', label:'23 anos · Sicredi ano 1', desc:'Entrada no Sicredi (jan/27) · Assistente · CPA-10 · 2º ano da graduação',
+    stats:{renda:'~R$2.100/mês','poupança':'~R$700/mês',meta:'~R$13.300'},
+    tags:'Entrar no Sicredi jan/2027, Cargo: Assistente, Meta: tirar CPA-10 em 3–6 meses, 2º ano da graduação, Estudar mercado de carros',
+    nota:'Performar, aprender a operação e tirar CPA-10. R$15k chegam em fev/2028 mesmo sem mudança de renda.' },
+  { ano:2028, cor:'#185fa5', label:'24 anos · Sicredi ano 2 · primeiro rolo', desc:'Assistente Sênior · C-PRO R · formatura · 1ª operação de carro',
+    stats:{renda:'R$2.300–2.500','cargo':'Assist. Sênior',meta:'~R$35.000'},
+    tags:'Promoção: Assistente Sênior, Meta: tirar C-PRO R, Formatura gestão financeira (jun/28), 1ª operação de carro, Reinvestir 100% do lucro',
+    nota:'Consolidar resultados, tirar C-PRO R e se posicionar para promoção a Gerente PF. Poupança ainda baixa — renda em transição.' },
+  { ano:2029, cor:'#185fa5', label:'25 anos · Sicredi ano 3 · rolos em série', desc:'Gerente de Negócios PF · rolos de carro recorrentes',
+    stats:{renda:'R$3.300–4.800','cargo':'Ger. Neg. PF',meta:'~R$65.000'},
+    tags:'Promoção: Gerente de Negócios PF, Ativação na função, Construir carteira PF, 4–6 rolos de carro, Lucro ~R$10–15k/ano',
+    nota:'Renda salta com a promoção. Poupança acelera. Foco em carros e acumular para o imóvel.' },
+  { ano:2030, cor:'#8a5a1a', label:'26 anos · Sicredi ano 4+ · aceleração', desc:'Gerente de Negócios PJ · máximo de rolos · chegando nos R$150k',
+    stats:{renda:'R$3.500–7.000','cargo':'Ger. Neg. PJ',meta:'~R$106.000'},
+    tags:'Migrar para carteira PJ, Histórico sólido como Gerente PF, 6–8 rolos de carro, Lucro ~R$15–20k/ano, Poupança ~R$24k/ano',
+    nota:'Maior salto de renda da carreira. Faltam ~R$44k para os R$150k do imóvel. Sprint final antes de migrar.' },
   { ano:2031, cor:'#8a5a1a', label:'27 anos · entrada no imóvel', desc:'1º sem: R$150k · 2º sem: 1ª operação de imóvel',
-    stats:{renda:'R$6.500/mês','1ª op.':'jul/2031',meta:'~R$170.000'},
-    tags:'Atingir R$150k no 1º sem., 1ª operação de imóvel, Rolos de carro paralelos',
+    stats:{renda:'R$5.000–7.000','1ª op.':'jul/2031',meta:'~R$170.000'},
+    tags:'Atingir R$150k no 1º sem., 1ª operação de imóvel, Rolos de carro paralelos, Consolidado no Sicredi',
     nota:'⚠ Ao alocar R$150k no imóvel, mantenha reserva de emergência. Nunca zere o caixa.' },
   { ano:2032, cor:'#8a2a1a', label:'28 anos · 1º lucro imóvel', desc:'Recebe R$30k do 1º imóvel · reinveste · carros continuam',
     stats:{lucro:'R$30.000','2ª op.':'em curso',meta:'~R$280.000'},
-    tags:'Lucro 1º imóvel, 2ª operação de imóvel, 6–8 rolos de carro',
+    tags:'Lucro 1º imóvel, 2ª operação de imóvel, 6–8 rolos de carro, Poupança ~R$28k/ano',
     nota:'Patrimônio começa a crescer diferente. Cada imóvel liquidado acelera o próximo.' },
   { ano:2033, cor:'#8a2a1a', label:'29 anos · sprint final', desc:'2ª venda de imóvel · 3ª operação · carros no máximo',
     stats:{lucro:'+R$30.000',rolos:'8–10 carros',meta:'~R$500.000'},
-    tags:'2ª venda de imóvel, 3ª operação de imóvel, 8–10 rolos de carro',
+    tags:'2ª venda de imóvel, 3ª operação de imóvel, 8–10 rolos de carro, Poupança ~R$30k/ano',
     nota:'⚠ Com R$500k aos 29 anos, os R$1M dependem das operações de imóvel em 2034.' },
   { ano:2034, cor:'#4a1a8a', label:'30–31 anos · objetivo', desc:'3ª e 4ª vendas · patrimônio cruza R$1M · vida nômade',
     stats:{meta:'R$1.000.000',passiva:'sustentável',vida:'nômade'},
-    tags:'Patrimônio R$1M, Renda passiva estruturada, Modo nômade',
+    tags:'Patrimônio R$1M, Renda passiva estruturada, Modo nômade, Liberdade financeira',
     nota:'✓ Prazo realista: 30–31 anos. Um ano a mais com segurança vale mais do que forçar.' },
 ];
 
-// Carrega timeline do localStorage ou usa o default
+// Controle de versão — forçar reload do default atualizado
+const TIMELINE_VERSION = '2';
+if (localStorage.getItem('timelineVersion') !== TIMELINE_VERSION) {
+  localStorage.removeItem('timelineData');
+  localStorage.setItem('timelineVersion', TIMELINE_VERSION);
+}
 let timelineData = JSON.parse(localStorage.getItem('timelineData') || 'null') || JSON.parse(JSON.stringify(TIMELINE_DEFAULT));
 
 function salvarTimeline() {
